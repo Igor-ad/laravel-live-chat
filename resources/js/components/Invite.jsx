@@ -7,7 +7,7 @@ const Invite = ({rootUrl, userId, chatId}) => {
     const inviteRequest = async (invitedUserId, invitedChatId) => {
         try {
             await axios.post(`${rootUrl}/invite`, {
-                invitedUserId, invitedChatId
+                user_id: invitedUserId, chat_id: invitedChatId
             });
         } catch (err) {
             console.log(err.message);

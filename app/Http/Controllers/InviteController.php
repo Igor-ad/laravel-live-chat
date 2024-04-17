@@ -18,15 +18,12 @@ class InviteController extends Controller
 
     public function store(InviteRequest $request): Invite
     {
-        $invitedUserId = $request->input('invitedUserId');
-        $invitedChatId = $request->input('invitedChatId');
-
-        return Invite::create([
-            'text' => $this->getInviteText(),
-            'user_id' => $invitedUserId,
-            'chat_id' => $invitedChatId,
-            'is_invite' => true,
-        ]);
+        return Invite::create(
+            array_merge($request->validated(), [
+                    'text' => $this->getInviteText(),
+                    'is_invite' => true,
+                ]),
+        );
     }
 
     private function getInviteText(): string

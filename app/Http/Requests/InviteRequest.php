@@ -22,8 +22,8 @@ class InviteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'invitedChatId' => ['required', 'integer'],
-            'invitedUserId' => ['required', 'integer'],
+            'chat_id' => ['required', 'integer'],
+            'user_id' => ['required', 'integer'],
         ];
     }
 }
