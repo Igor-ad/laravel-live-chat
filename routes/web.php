@@ -20,10 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/users_online', [UserController::class, 'online'])->name('online');
     Route::post('/invite', [InviteController::class, 'invite'])->name('send.invite');
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
-    Route::get('/chats/{id}', [ChatController::class, 'show'])->name('chats.box');
+    Route::get('/chats/{chatId}', [ChatController::class, 'show'])->name('chats.box');
     Route::get('/create', [ChatController::class, 'create'])->name('chats.create');
     Route::post('/chats/store', [ChatController::class, 'store'])->name('chats.store');
-    Route::delete('/chats/delete/{id}', [ChatController::class, 'destroy'])->name('chats.delete');
+    Route::delete('/chats/delete/{chatId}', [ChatController::class, 'destroy'])->name('chats.delete');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

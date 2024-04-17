@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InviteRequest;
 use App\Jobs\SendInvite;
 use App\Models\Invite;
+use Illuminate\Http\JsonResponse;
 
 class InviteController extends Controller
 {
-    public function invite(InviteRequest $request)
+    public function invite(InviteRequest $request): JsonResponse
     {
         $invite = $this->store($request);
         SendInvite::dispatch($invite);
