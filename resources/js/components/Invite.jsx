@@ -1,13 +1,15 @@
 import React from "react";
 
 const Invite = ({rootUrl, userId, chatId}) => {
+    const csrfToken = document.getElementsByTagName('meta')
+        .namedItem('csrf-token').getAttribute('content');
     const invitedUserId = userId;
     const invitedChatId = chatId;
 
     const inviteRequest = async (invitedUserId, invitedChatId) => {
         try {
             await axios.post(`${rootUrl}/invite`, {
-                user_id: invitedUserId, chat_id: invitedChatId
+                user_id: invitedUserId, chat_id: invitedChatId, _token: csrfToken,
             });
         } catch (err) {
             console.log(err.message);

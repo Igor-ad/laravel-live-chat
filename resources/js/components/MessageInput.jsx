@@ -4,13 +4,15 @@ const MessageInput = ({rootUrl}) => {
     const [message, setMessage] = useState("");
     const chatData = document.getElementById('main')
         .getAttribute('data-chat');
+    const csrfToken = document.getElementsByTagName('meta')
+        .namedItem('csrf-token').getAttribute('content');
     const chat = JSON.parse(chatData);
     const chatId = chat.id;
 
     const messageRequest = async (text) => {
         try {
             await axios.post(`${rootUrl}/message`, {
-                text, chat_id: chatId,
+                text, chat_id: chatId, _token: csrfToken,
             });
         } catch (err) {
             console.log(err.message);
