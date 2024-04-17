@@ -5,11 +5,12 @@ const MessageInput = ({rootUrl}) => {
     const chatData = document.getElementById('main')
         .getAttribute('data-chat');
     const chat = JSON.parse(chatData);
+    const chatId = chat.id;
 
     const messageRequest = async (text) => {
         try {
-            await axios.post(`${rootUrl}/message/${chat.id}`, {
-                text,
+            await axios.post(`${rootUrl}/message`, {
+                text, chat_id: chatId,
             });
         } catch (err) {
             console.log(err.message);

@@ -20,9 +20,9 @@ class InviteController extends Controller
     {
         return Invite::create(
             array_merge($request->validated(), [
-                    'text' => $this->getInviteText(),
-                    'is_invite' => true,
-                ]),
+                'text' => $this->getInviteText(),
+                'is_invite' => true,
+            ]),
         );
     }
 

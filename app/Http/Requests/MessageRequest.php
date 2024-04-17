@@ -23,6 +23,7 @@ class MessageRequest extends FormRequest
     {
         return [
             'text' => ['required', 'string', 'max:255'],
+            'chat_id' => ['required', 'integer'],
         ];
     }
 }

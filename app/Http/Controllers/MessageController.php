@@ -9,9 +9,9 @@ use Illuminate\Http\JsonResponse;
 
 class MessageController extends Controller
 {
-    public function message(MessageRequest $request, string $chatId): JsonResponse
+    public function message(MessageRequest $request): JsonResponse
     {
-        $message = $this->store($request, $chatId);
+        $message = $this->store($request);
         SendMessage::dispatch($message);
 
         return response()->json($this->toArray());
@@ -26,13 +26,13 @@ class MessageController extends Controller
         return response()->json($messages);
     }
 
-    public function store(MessageRequest $request, string $chatId): Message
+    public function store(MessageRequest $request): Message
     {
-        return Message::create([
-            'text' => $request->input('text'),
-            'chat_id' => $chatId,
-            'user_id' => auth()->id(),
-        ]);
+        return Message::create(
+            array_merge($request->validated(), [
+                'user_id' => auth()->id(),
+            ]),
+        );
     }
 
     private function toArray(): array

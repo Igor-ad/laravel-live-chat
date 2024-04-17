@@ -16,7 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/messages/{chatId}', [MessageController::class, 'getMessagesByChatId'])->name('messages');
-    Route::post('/message/{chatId}', [MessageController::class, 'message'])->name('message');
+    Route::post('/message', [MessageController::class, 'message'])->name('message');
     Route::get('/users_online', [UserController::class, 'online'])->name('online');
     Route::post('/invite', [InviteController::class, 'invite'])->name('send.invite');
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
