@@ -8,10 +8,10 @@ use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
-    public function getUsersOnline(): Collection
+    protected function getUsersOnline(): Collection
     {
         return Session::with('user')
-            ->select('user_id')
+            ->select(['user_id'])
             ->whereNot('user_id', auth()->id())
             ->whereNotNull('user_id')
             ->distinct()

@@ -36,7 +36,7 @@
             @auth
 
                 <div id="invite"
-                     data-user="{{ json_encode(auth()->user()) }}">
+                     data-user="{{ json_encode(['id' => auth()->id()]) }}">
                 </div>
 
             @endauth

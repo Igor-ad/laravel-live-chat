@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChatRequest;
 use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -24,8 +25,10 @@ class ChatController extends Controller
 
     public function show(string $chatId): View
     {
-        $user = auth()->user();
-        $chat = Chat::find($chatId);
+        $user = User::where('id', auth()->id())
+            ->select(['id', 'name', 'email'])->first();
+
+        $chat = ['id' => $chatId];
 
         return view('chats.chat-box', compact('user', 'chat'));
     }

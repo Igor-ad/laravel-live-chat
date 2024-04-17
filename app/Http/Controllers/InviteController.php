@@ -36,7 +36,7 @@ class InviteController extends Controller
         return sprintf('You are invited by the %s user to a chat.', $user['name']);
     }
 
-    public function toArray(): array
+    private function toArray(): array
     {
         return [
             'success' => true,

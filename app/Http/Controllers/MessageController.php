@@ -35,7 +35,7 @@ class MessageController extends Controller
         ]);
     }
 
-    public function toArray(): array
+    private function toArray(): array
     {
         return [
             'success' => true,
