@@ -15,7 +15,7 @@ const InviteModal = ({rootUrl}) => {
                 const {text: messageText} = e.message;
                 const {id: messageId} = e.message;
                 const {chat_id: messageChatId} = e.message;
-                const invitedChatUrl = <a className="alert-link-opacity-25-hover"
+                const invitedChatUrl = <a className="link-primary"
                                           href={`${rootUrl}/chats/${messageChatId}`}>{`${messageText}`}</a>;
                 setInviteMessage(invitedChatUrl);
                 setModalIsOpen(!!messageId);
@@ -46,7 +46,7 @@ const InviteModal = ({rootUrl}) => {
                             </p>
                         </div>
                         <div className="card-footer">
-                            <button onClick={closeModal} type="button" className="btn btn-light">Close</button>
+                            <button onClick={closeModal} type="button" className="btn btn-link">Close</button>
                         </div>
                     </div>
                 </div>
