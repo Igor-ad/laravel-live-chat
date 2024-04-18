@@ -15,8 +15,10 @@
             <td><a type="button" class="btn btn-link"
                    href="{{ route('chats.box', [$chat->id]) }}">{{ __('go') }}</a>
             </td>
-            <td><a type="button" class="btn btn-link"
-                   href="{{ route('chats.delete', [$chat->id]) }}">{{ __('del') }}</a>
+            <td>
+
+@include('chats.forms.delete')
+
             </td>
         </tr>
     @empty
