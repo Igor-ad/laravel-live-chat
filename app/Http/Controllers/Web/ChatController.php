@@ -1,8 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
 
+namespace App\Http\Controllers\Web;
+
+use App\Broadcasting\SystemPresenceChannel;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ChatRequest;
+use App\Http\Resources\ChatResource;
+use App\Http\Resources\UserResource;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -12,10 +18,12 @@ class ChatController extends Controller
 {
     public function index(): View
     {
-        $allowedChats = Chat::where('user_id', auth()->id())
+        $allowedChats = Chat::query()
+            ->where('user_id', auth()->id())
             ->orWhere('status', 'public')->get();
 
         return view('chats.chats', compact('allowedChats'));
+
     }
 
     public function create(): View
@@ -25,12 +33,13 @@ class ChatController extends Controller
 
     public function show(string $chatId): View
     {
-        $user = User::where('id', auth()->id())
-            ->select(['id', 'name', 'email'])->first();
+        $chatData = json_encode([
+            'user' => UserResource::make(User::find(auth()->id())),
+            'chat' => ChatResource::make(Chat::find($chatId)),
+            'channels' => $this->channels($chatId),
+        ]);
 
-        $chat = ['id' => $chatId];
-
-        return view('chats.chat-box', compact('user', 'chat'));
+        return view('chats.chat-box', compact('chatData'));
     }
 
     public function store(ChatRequest $request): RedirectResponse
@@ -49,5 +58,13 @@ class ChatController extends Controller
         Chat::destroy($chatId);
 
         return redirect()->route('chats.index');
+    }
+
+    private function channels(string $chatId): array
+    {
+        return [
+            'systemChannel' => SystemPresenceChannel::channelName(),
+            'chatChannel' => "App.Models.Chat.{$chatId}",
+        ];
     }
 }

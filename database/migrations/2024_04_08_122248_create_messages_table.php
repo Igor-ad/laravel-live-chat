@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('chat_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('is_invite')->default(false);
             $table->timestamps();
+            $table->timestamp('deleted_at');
         });
     }
 

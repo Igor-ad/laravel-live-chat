@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('status', ['private', 'public'])->default('private');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
+            $table->timestamp('deleted_at');
         });
     }
 

@@ -1,64 +1,59 @@
-import React, {useEffect, useState} from 'react';
-import Modal from 'react-modal';
+import React, {useEffect} from 'react';
 
-const InviteModal = ({rootUrl}) => {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [inviteMessage, setInviteMessage] = useState("");
-    const userData = document.getElementById('invite')
-        .getAttribute('data-user');
-    const user = JSON.parse(userData);
-    const webSocketChannel = `App.Models.User.${user.id}`;
+const InviteModal = ({rootUrl, csrfToken}) => {
 
-    const connectWebSocket = () => {
-        window.Echo.private(webSocketChannel)
-            .listen('GotInvite', async (e) => {
-                const {text: messageText} = e.message;
-                const {id: messageId} = e.message;
-                const {chat_id: messageChatId} = e.message;
-                const invitedChatUrl = <a className="link-primary"
-                                          href={`${rootUrl}/chats/${messageChatId}`}>{`${messageText}`}</a>;
-                setInviteMessage(invitedChatUrl);
-                setModalIsOpen(!!messageId);
+    const systemData = document.getElementById('invite')
+        .getAttribute('data-system');
+    const system = JSON.parse(systemData);
+
+    const connectSystemChannel = () => {
+        window.Echo.join(system.systemChannel)
+            .listenForWhisper('invite', (e) => {
+                axios.defaults.headers.common['X-Socket-Id'] = Echo.socketId();
+                getInvite(e);
+            })
+            .error((error) => {
+                console.error(error);
             });
-    }
+    };
 
-    const closeModal = () => {
-        setModalIsOpen(false);
+    const getInvite = (e) => {
+        if (e.id === system.authUserId) {
+            let proposalText =
+                `You are invited by the ${e.from.name} to the chat: "${e.chat.name}"`;
+            const answer = confirm(proposalText);
+            if (answer) {
+                createInviteRequest(e);
+                toChat(e);
+            }
+        }
+    };
+
+    const createInviteRequest = async (e) => {
+        try {
+            await axios.post(`${rootUrl}/invites`, {
+                user_id: e.id,
+                chat_id: e.chat.id,
+                _token: csrfToken,
+            });
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    const toChat = (e) => {
+        setTimeout(() =>
+                window.location.href = `${rootUrl}/chats/${e.chat.id}`
+            , 100);
     };
 
     useEffect(() => {
-        connectWebSocket();
+        connectSystemChannel();
 
         return () => {
-            window.Echo.leave(webSocketChannel);
+            window.Echo.leave(system.systemChannel);
         }
     }, []);
-
-    const modalContent = (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-4">
-                    <div className="card">
-                        <div className="card-header">Invite to chat</div>
-                        <div className="card-body">
-                            <p>
-                                {inviteMessage}
-                            </p>
-                        </div>
-                        <div className="card-footer">
-                            <button onClick={closeModal} type="button" className="btn btn-link">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-
-    return (
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-            {modalContent}
-        </Modal>
-    );
 };
 
 export default InviteModal;

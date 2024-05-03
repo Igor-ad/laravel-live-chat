@@ -26,8 +26,7 @@
                     </div>
                     <div class="container">
                         <div id="main"
-                             data-user="{{ json_encode($user) }}"
-                             data-chat="{{ json_encode($chat) }}">
+                             data-chat="{{ $chatData }}">
                         </div>
                     </div>
                 </div>

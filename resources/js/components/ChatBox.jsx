@@ -1,85 +1,80 @@
 import React, {useEffect, useRef, useState} from "react";
 import Message from "./Message.jsx";
 import MessageInput from "./MessageInput.jsx";
-import Online from "./Online.jsx";
+import OnlineUsers from "./OnlineUsers.jsx";
 
-const ChatBox = ({rootUrl}) => {
-    const userData = document.getElementById('main')
-        .getAttribute('data-user');
-    const user = JSON.parse(userData);
+const ChatBox = ({rootUrl, csrfToken}) => {
+
     const chatData = document.getElementById('main')
         .getAttribute('data-chat');
-    const chat = JSON.parse(chatData);
-    const webSocketChannel = `App.Models.Chat.${chat.id}`;
+    const chatObject = JSON.parse(chatData);
+    const chat = chatObject.chat;
+    const authUser = chatObject.user;
+    const chatChannel = chatObject.channels.chatChannel;
     const [messages, setMessages] = useState([]);
-    const [usersOnline, setUsers] = useState([]);
     const scroll = useRef();
 
     const scrollToBottom = () => {
         scroll.current.scrollIntoView({behavior: "smooth"});
     };
 
-    const connectWebSocket = () => {
-        window.Echo.private(webSocketChannel)
-            .listen('GotMessage', async (e) => {
-                await getMessages();
-                await getUsersOnline();
-            })
-            .listen('GotInvite', async (e) => {
-                await getMessages();
-                await getUsersOnline();
-            });
+    /**
+     *  This is a patch because the dontBroadcastToCurrentUser() method
+     * in the App\Models\Invite.php model does not always eliminate duplicate messages
+     *  when sending an invitation POST request and going to the chat page.
+     */
+    const dontBroadcastToCurrentUser = (e) => {
+        if (e.model.user_id !== authUser.id) {
+            setMessages(prevState => [...prevState, e.model]);
+            setTimeout(scrollToBottom, 0);
+        }
     }
+
+    const connectPrivateChatChannel = () => {
+        window.Echo.private(chatChannel)
+            .listen('.MessageCreated', (e) => {
+                setMessages(prevState => [...prevState, e.model]);
+                setTimeout(scrollToBottom, 0);
+            })
+            .listen('.InviteCreated', (e) => {
+                dontBroadcastToCurrentUser(e);
+            })
+            .listen('.MessageDeleted', (e) => {
+                setMessages(prevState => [
+                    ...prevState.filter(value => value.id !== e.model.id)
+                ]);
+            })
+            .error((error) => {
+                console.error(error);
+            });
+    };
 
     const getMessages = async () => {
         try {
             const m = await axios.get(`${rootUrl}/messages/${chat.id}`);
-            setMessages(m.data);
+            const messageCollection = m.data;
+            setMessages(messageCollection.data);
             setTimeout(scrollToBottom, 0);
-        } catch (err) {
-            console.log(err.message);
-        }
-    };
-
-    const getUsersOnline = async () => {
-        try {
-            const n = await axios.get(`${rootUrl}/users_online`);
-            setUsers(n.data);
-        } catch (err) {
-            console.log(err.message);
+        } catch (error) {
+            console.log(error.message);
         }
     };
 
     useEffect(() => {
         getMessages();
-        getUsersOnline();
-        connectWebSocket();
+        connectPrivateChatChannel();
 
         return () => {
-            window.Echo.leave(webSocketChannel);
+            window.Echo.leave(chatChannel);
         }
     }, []);
 
     return (
         <div className="row justify-content-center">
             <div className="col-md-10">
-                <div className="card">
-                    <div className="card-header">Users online</div>
-                    <div className="card-body"
-                         style={{height: "auto", overflowY: "auto"}}>
-                        <ul>
-                            {
-                                usersOnline?.map((user) => (
-                                    <Online rootUrl={rootUrl}
-                                            key={user.id}
-                                            user={user}
-                                            chatId={chat.id}
-                                    />
-                                ))
-                            }
-                        </ul>
-                    </div>
-                </div>
+                <OnlineUsers
+                    chatObject={chatObject}
+                />
 
                 <div className="card">
                     <div className="card-header">Chat Box</div>
@@ -89,15 +84,19 @@ const ChatBox = ({rootUrl}) => {
                             messages?.map((message) => (
                                 <Message key={message.id}
                                          rootUrl={rootUrl}
-                                         userId={user.id}
+                                         authUser={authUser}
                                          message={message}
+                                         csrfToken={csrfToken}
                                 />
                             ))
                         }
                         <span ref={scroll}></span>
                     </div>
                     <div className="card-footer">
-                        <MessageInput rootUrl={rootUrl}/>
+                        <MessageInput rootUrl={rootUrl}
+                                      csrfToken={csrfToken}
+                                      chatObject={chatObject}
+                        />
                     </div>
                 </div>
             </div>

@@ -1,38 +1,48 @@
 import React, {useState} from "react";
+import BroadcastEvent from "./BroadcastEvent.jsx";
 
-const MessageInput = ({rootUrl}) => {
+const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
+
+    const chat = chatObject.chat;
+    const authUser = chatObject.user;
+    const channel = chatObject.channels.chatChannel;
     const [message, setMessage] = useState("");
-    const chatData = document.getElementById('main')
-        .getAttribute('data-chat');
-    const csrfToken = document.getElementsByTagName('meta')
-        .namedItem('csrf-token').getAttribute('content');
-    const chat = JSON.parse(chatData);
-    const chatId = chat.id;
 
-    const messageRequest = async (text) => {
+    const createMessageRequest = async (text) => {
         try {
-            await axios.post(`${rootUrl}/message`, {
-                text, chat_id: chatId, _token: csrfToken,
+            await axios.post(`${rootUrl}/messages`, {
+                text,
+                chat_id: chat.id,
+                _token: csrfToken,
             });
-        } catch (err) {
-            console.log(err.message);
+        } catch (error) {
+            console.log(error.message);
         }
     };
 
-    const sendMessage = (e) => {
+    const createMessage = (e) => {
         e.preventDefault();
         if (message.trim() === "") {
             alert("Please enter a message!");
             return;
         }
-
-        messageRequest(message);
+        createMessageRequest(message);
         setMessage("");
+    };
+
+    const typingText = (e) => {
+        let text = e.target.value;
+        setMessage(text);
+        if (text.length % 5) return;
+        if (text.length === 0) {
+            return BroadcastEvent(e, channel, 'erasing', authUser);
+        }
+        BroadcastEvent(e, channel, 'typing', authUser);
     };
 
     return (
         <div className="input-group">
-            <input onChange={(e) => setMessage(e.target.value)}
+            <input onChange={(e) => typingText(e)}
                    autoComplete="off"
                    type="text"
                    className="form-control"
@@ -40,7 +50,7 @@ const MessageInput = ({rootUrl}) => {
                    value={message}
             />
             <div className="input-group-append">
-                <button onClick={(e) => sendMessage(e)}
+                <button onClick={(e) => createMessage(e)}
                         className="btn btn-link"
                         type="button">Send
                 </button>

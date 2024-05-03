@@ -1,4 +1,4 @@
-<table id="t1" class="table table-condensed table-striped">
+<table id="t1" class="table table-condensed table-striped align-middle">
     <thead>
     <tr>
         <th>{{ __('name') }}</th>

@@ -1,3 +1,4 @@
+@php use \App\Http\Controllers\Web\ApplicationController;  @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -36,7 +37,7 @@
             @auth
 
                 <div id="invite"
-                     data-user="{{ json_encode(['id' => auth()->id()]) }}">
+                     data-system="{{ ApplicationController::systemData() }}">
                 </div>
 
             @endauth

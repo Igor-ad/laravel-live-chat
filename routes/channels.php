@@ -1,11 +1,9 @@
 <?php
 
+use App\Broadcasting\ChatPrivateChannel;
+use App\Broadcasting\SystemPresenceChannel;
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('App.Models.Chat.{id}', function () {
-    return true;
-});
+Broadcast::channel(SystemPresenceChannel::channelName(),SystemPresenceChannel::class);
 
-Broadcast::channel('App.Models.User.{id}', function () {
-    return true;
-});
+Broadcast::channel(ChatPrivateChannel::channelName(), ChatPrivateChannel::class);
