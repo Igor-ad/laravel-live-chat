@@ -39,6 +39,6 @@ PUSHER_APP_SECRET,
 ![image](public/img/chat_list.png)
 ![image](public/img/create_chat.png)
 ![image](public/img/chat_box.png)
-![image](public/img/invite_modal_window.png)
+![image](public/img/invite_modal.png)
 ![image](public/img/admin_chat_box.png)
 ![image](public/img/deleting_message_chat_box.png)
