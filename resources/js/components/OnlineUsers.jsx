@@ -42,7 +42,7 @@ const OnlineUsers = ({chatObject}) => {
             case 'erasing' :
                 return `: ${data.name} erases text.`;
             case 'delete' :
-                return `: ${data.user.name} delete message: "${data.text}".`;
+                return `: ${data.user.name} deleted message: "${data.text}".`;
 
             default:
                 return `: ${data.name} is doing something.`;
