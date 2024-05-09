@@ -1,21 +1,22 @@
 import React from "react";
+import SendRequest from "./SendRequest.jsx";
 
 const Message = ({rootUrl, authUser, message, csrfToken}) => {
+
+    const messagesEndPoint = `${rootUrl}/messages/`;
 
     const ownMessage = () => {
         return (authUser.id === message.user.id);
     };
 
-    const deleteMessageRequest = async (e, message) => {
-        try {
-            await axios.post(`${rootUrl}/messages/${message.id}`, {
-                _token: csrfToken,
-                _method: 'delete'
-            });
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
+    const deleteMessageRequest = (message) => {
+        const deleteMessageEndpoint = messagesEndPoint + message.id;
+        const data = {
+            _token: csrfToken,
+            _method: 'delete'
+        };
+        SendRequest(deleteMessageEndpoint, data);
+    }
 
     const alert = () => {
         switch (true) {
@@ -31,7 +32,7 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
 
     return (
         <div className={`row ${ownMessage() ? "justify-content-end" : ""}`}>
-            <div className="col-md-6">
+            <div className="col-md-6" id={message.id}>
                 <small className="text-muted">
                     <strong>{message.user.name} </strong>
                 </small>
@@ -49,7 +50,7 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
                             <div className="col-md-1">
                                 <button onClick={
                                     (e) => {
-                                        deleteMessageRequest(e, message);
+                                        deleteMessageRequest(message);
                                     }
                                 }
                                         className="btn btn-link btn-sm"

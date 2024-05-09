@@ -1,7 +1,10 @@
 import React, {useEffect} from 'react';
+import SendRequest from "./SendRequest.jsx";
 
 const InviteModal = ({rootUrl, csrfToken}) => {
 
+    const invitesEndPoint = `${rootUrl}/invites`;
+    const chatsEndPoint = `${rootUrl}/chats/`;
     const systemData = document.getElementById('invite')
         .getAttribute('data-system');
     const system = JSON.parse(systemData);
@@ -30,20 +33,17 @@ const InviteModal = ({rootUrl, csrfToken}) => {
     };
 
     const createInviteRequest = async (e) => {
-        try {
-            await axios.post(`${rootUrl}/invites`, {
-                user_id: e.id,
-                chat_id: e.chat.id,
-                _token: csrfToken,
-            });
-        } catch (error) {
-            console.log(error.message);
-        }
+        const data = {
+            user_id: e.id,
+            chat_id: e.chat.id,
+            _token: csrfToken,
+        };
+        SendRequest(invitesEndPoint, data);
     };
 
     const toChat = (e) => {
         setTimeout(() =>
-                window.location.href = `${rootUrl}/chats/${e.chat.id}`
+                window.location.href = chatsEndPoint + e.chat.id
             , 100);
     };
 

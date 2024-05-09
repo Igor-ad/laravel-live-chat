@@ -9,6 +9,7 @@ const ChatBox = ({rootUrl, csrfToken}) => {
         .getAttribute('data-chat');
     const chatObject = JSON.parse(chatData);
     const chat = chatObject.chat;
+    const messagesEndPoint = `${rootUrl}/messages/${chat.id}`;
     const authUser = chatObject.user;
     const chatChannel = chatObject.channels.chatChannel;
     const [messages, setMessages] = useState([]);
@@ -51,8 +52,8 @@ const ChatBox = ({rootUrl, csrfToken}) => {
 
     const getMessages = async () => {
         try {
-            const m = await axios.get(`${rootUrl}/messages/${chat.id}`);
-            const messageCollection = m.data;
+            const n = await axios.get(messagesEndPoint);
+            const messageCollection = n.data;
             setMessages(messageCollection.data);
             setTimeout(scrollToBottom, 0);
         } catch (error) {

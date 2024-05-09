@@ -15,6 +15,8 @@ class Invite extends Message
 {
     use HasFactory, SoftDeletes, BroadcastsEvents, InteractsWithSockets;
 
+    public final const TEXT = 'You are invited to the chat.';
+
     protected $fillable = [
         'id',
         'user_id',

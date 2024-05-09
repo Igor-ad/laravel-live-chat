@@ -15,7 +15,7 @@ class InviteController extends Controller
     {
         Invite::create(
             array_merge($request->validated(), [
-                'text' => 'You are invited to the chat.',
+                'text' => Invite::TEXT,
                 'is_invite' => true,
             ]),
         );

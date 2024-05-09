@@ -1,23 +1,22 @@
 import React, {useState} from "react";
 import BroadcastEvent from "./BroadcastEvent.jsx";
+import SendRequest from "./SendRequest.jsx";
 
 const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
 
+    const messagesEndPoint = `${rootUrl}/messages`;
     const chat = chatObject.chat;
     const authUser = chatObject.user;
     const channel = chatObject.channels.chatChannel;
     const [message, setMessage] = useState("");
 
-    const createMessageRequest = async (text) => {
-        try {
-            await axios.post(`${rootUrl}/messages`, {
-                text,
-                chat_id: chat.id,
-                _token: csrfToken,
-            });
-        } catch (error) {
-            console.log(error.message);
-        }
+    const createMessageRequest = async () => {
+        const data = {
+            text: message,
+            chat_id: chat.id,
+            _token: csrfToken,
+        };
+        SendRequest(messagesEndPoint, data);
     };
 
     const createMessage = (e) => {
@@ -26,7 +25,7 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
             alert("Please enter a message!");
             return;
         }
-        createMessageRequest(message);
+        createMessageRequest();
         setMessage("");
     };
 
