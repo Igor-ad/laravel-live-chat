@@ -120,7 +120,7 @@ const OnlineUsers = ({chatObject}) => {
                         data-bs-target="#collapseUsers"
                         aria-expanded="false"
                         aria-controls="collapseUsers">
-                    {chatUsersCount} Users in the chat {statusBar}
+                    {chatUsersCount} User{chatUsersCount - 1 ? 's' : ''} in the chat {statusBar}
                 </button>
                 <div id="collapseUsers" className="accordion-collapse collapse show" data-bs-parent="#usersOnline">
                     <div className="accordion-body"
