@@ -19,11 +19,11 @@ class ChatController extends Controller
     public function index(): View
     {
         $allowedChats = Chat::query()
+            ->with('user')
             ->where('user_id', auth()->id())
             ->orWhere('status', 'public')->get();
 
         return view('chats.chats', compact('allowedChats'));
-
     }
 
     public function create(): View

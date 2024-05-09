@@ -15,6 +15,7 @@ class ChatResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'status' => $this->status,
+            'user' => UserResource::make($this->user),
         ];
     }
 }

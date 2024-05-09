@@ -78,7 +78,7 @@ const ChatBox = ({rootUrl, csrfToken}) => {
                 />
 
                 <div className="card">
-                    <div className="card-header">Chat Box</div>
+                    <div className="card-header">Chat Box: {chat.name}</div>
                     <div className="card-body"
                          style={{height: "400px", overflowY: "auto"}}>
                         {
