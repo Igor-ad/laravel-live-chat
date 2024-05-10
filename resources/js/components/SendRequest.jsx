@@ -1,6 +1,6 @@
 import React from "react";
 
-const SendRequest = async (endPoint, data) => {
+const SendRequest = async ({endPoint, data}) => {
     try {
         await axios.post(endPoint, data);
     } catch (error) {

@@ -38,7 +38,10 @@ const InviteModal = ({rootUrl, csrfToken}) => {
             chat_id: e.chat.id,
             _token: csrfToken,
         };
-        SendRequest(invitesEndPoint, data);
+        await SendRequest({
+            endPoint: invitesEndPoint,
+            data
+        });
     };
 
     const toChat = (e) => {

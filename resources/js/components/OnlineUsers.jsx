@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Online from "./Online.jsx";
+import CustomAction from "./CustomAction.jsx";
 
 const OnlineUsers = ({chatObject}) => {
 
@@ -19,34 +20,13 @@ const OnlineUsers = ({chatObject}) => {
         ]);
     };
 
-    const updateStatusBar = (event, data) => {
-        let text = customAction(event, data);
+    const updateStatusBar = (action, data) => {
+        let text = CustomAction({action, data});
         setStatusBar(text);
+        console.log(text);
         setTimeout(() => {
-            setStatusBar(""); // erase status bar
-        }, 5000);
-    };
-
-    const customAction = (action, data) => {
-        switch (action) {
-            case 'leaving' :
-                return `: ${data.name} left the system.`;
-            case 'joining' :
-                return `: ${data.name} has joined the system.`;
-            case 'chatLeaving' :
-                return `: ${data.name} left the chat.`;
-            case 'chatJoining' :
-                return `: ${data.name} has joined the chat.`;
-            case 'typing' :
-                return `: ${data.name} typing...`;
-            case 'erasing' :
-                return `: ${data.name} erases text.`;
-            case 'delete' :
-                return `: ${data.user.name} deleted message: "${data.text}".`;
-
-            default:
-                return `: ${data.name} is doing something.`;
-        }
+            setStatusBar(""); // erase status bar after timeout
+        }, 10000);
     };
 
     const connectSystemChannel = () => {
@@ -101,10 +81,25 @@ const OnlineUsers = ({chatObject}) => {
             });
     };
 
+    const connectPrivateSystemChannel = () => {
+        window.Echo.private(systemChannel)
+            .listen('.ChatCreated', (e) => {
+                const chatCreateSB = () => (updateStatusBar('chatCreate', e.model));
+                setTimeout(chatCreateSB, 2000);
+            })
+            .listen('.ChatDeleted', (e) => {
+                updateStatusBar('chatDelete', e.model);
+            })
+            .error((error) => {
+                console.error(error);
+            });
+    };
+
     useEffect(() => {
         connectSystemChannel();
         connectPrivateChatChannel();
         connectChatChannel()
+        connectPrivateSystemChannel();
         return () => {
             window.Echo.leave(channel);
             window.Echo.leave(systemChannel);

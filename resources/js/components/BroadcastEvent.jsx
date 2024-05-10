@@ -1,8 +1,8 @@
 import React from "react";
 
-const BroadcastEvent = function (e, channel, eventName, data) {
+const BroadcastEvent = function ({channel, event, data}) {
     window.Echo.join(channel)
-        .whisper(eventName, data)
+        .whisper(event, data)
         .error((error) => {
             console.error(error);
         });

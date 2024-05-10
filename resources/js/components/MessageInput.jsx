@@ -16,7 +16,10 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
             chat_id: chat.id,
             _token: csrfToken,
         };
-        SendRequest(messagesEndPoint, data);
+        await SendRequest({
+            endPoint: messagesEndPoint,
+            data
+        });
     };
 
     const createMessage = (e) => {
@@ -34,9 +37,17 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
         setMessage(text);
         if (text.length % 5) return;
         if (text.length === 0) {
-            return BroadcastEvent(e, channel, 'erasing', authUser);
+            return BroadcastEvent({
+                channel,
+                event: 'erasing',
+                data: authUser
+            });
         }
-        BroadcastEvent(e, channel, 'typing', authUser);
+        BroadcastEvent({
+            channel,
+            event: 'typing',
+            data: authUser
+        });
     };
 
     return (

@@ -24,7 +24,11 @@ const Online = ({user, chatObject}) => {
                     <div className="input-group-append">
                         <button onClick={
                             (e) => {
-                                BroadcastEvent(e, systemChannel, 'invite', eventData);
+                                BroadcastEvent({
+                                    channel: systemChannel,
+                                    event: 'invite',
+                                    data: eventData
+                                });
                             }
                         }
                                 className="btn btn-link btn-sm"

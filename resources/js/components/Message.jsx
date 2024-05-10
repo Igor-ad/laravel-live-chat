@@ -9,13 +9,16 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
         return (authUser.id === message.user.id);
     };
 
-    const deleteMessageRequest = (message) => {
+    const deleteMessageRequest = async (message) => {
         const deleteMessageEndpoint = messagesEndPoint + message.id;
         const data = {
             _token: csrfToken,
             _method: 'delete'
         };
-        SendRequest(deleteMessageEndpoint, data);
+        await SendRequest({
+            endPoint: deleteMessageEndpoint,
+            data
+        });
     }
 
     const alert = () => {
