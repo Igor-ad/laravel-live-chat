@@ -34,6 +34,29 @@ PUSHER_APP_SECRET,
 
 ```
 
+#### Main features of Laravel-live-chat:
+1. Create a public/private chat.        
+2. Soft deletion of your own chats.
+3. Ability to choose your own or public chat.
+4. Sending and soft deleting your own chat messages.
+5. Smooth scrolling of the message feed when receiving a new message in the chat.
+6. Sending a pop-up message with an invitation to a public/private chat for the user on any page of the site.
+7. Collapse/expand the panel with users authorized in to the site.
+8. Chat status bar, which displays chat events.
+9. Standard profile page for changing user registration data (Breeze).
+10. Standard check of the user mailbox during registration.
+11. CSRF protection of post/delete requests.
+
+#### Functions for displaying events in the chat status bar:
+1. Number of online users in the current chat;
+2. User login/logout from the site;
+3. User entry/exit from the current chat;
+4. Typing the message text by the user;
+5. Erasing the message text by the user;
+6. Display the text of a message deleted by the user;
+7. Creation/deletion of a chat by the user.
+8. Clear status bar after 10 seconds.
+
 ##### Examples of web pages
 
 ![image](public/img/chat_list.png)
