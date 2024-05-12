@@ -35,16 +35,16 @@ PUSHER_APP_SECRET,
 ```
 
 #### Main features of Laravel-live-chat:
-1. Create a public/private chat.        
-2. Soft deletion of your own chats.
-3. Ability to choose your own or public chat.
-4. Sending and soft deleting your own chat messages.
-5. Smooth scrolling of the message feed when receiving a new message in the chat.
-6. Sending a pop-up message with an invitation to a public/private chat for the user on any page of the site.
-7. Collapse/expand the panel with users authorized in to the site.
-8. Chat status bar, which displays chat events.
-9. Standard profile page for changing user registration data (Breeze).
-10. Standard check of the user mailbox during registration.
+1. Create a public/private chat;       
+2. Soft deletion of your own chats;
+3. Ability to choose your own or public chat;
+4. Sending and soft deleting your own chat messages;
+5. Smooth scrolling of the message feed when receiving a new message in the chat;
+6. Sending a pop-up message with an invitation to a public/private chat for the user on any page of the site;
+7. Collapse/expand the panel with users authorized in to the site;
+8. Chat status bar, which displays chat events;
+9. Standard profile page for changing user registration data (Breeze);
+10. Standard check of the user mailbox during registration;
 11. CSRF protection of post/delete requests.
 
 #### Functions for displaying events in the chat status bar:
@@ -54,7 +54,7 @@ PUSHER_APP_SECRET,
 4. Typing the message text by the user;
 5. Erasing the message text by the user;
 6. Display the text of a message deleted by the user;
-7. Creation/deletion of a chat by the user.
+7. Creation/deletion of a chat by the user;
 8. Clear status bar after 10 seconds.
 
 ##### Examples of web pages
@@ -65,3 +65,8 @@ PUSHER_APP_SECRET,
 ![image](public/img/invite_modal.png)
 ![image](public/img/admin_chat_box.png)
 ![image](public/img/deleting_message_chat_box.png)
+
+
+The application has also been successfully tested with the latest version of Laravel Reverb as a WebSockets server.
+The settings in the .env and echo.js files need to be changed to match the Reverb server.
+You also need to install dependencies to work with the Reverb server.

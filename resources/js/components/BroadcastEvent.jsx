@@ -1,5 +1,3 @@
-import React from "react";
-
 const BroadcastEvent = function ({channel, event, data}) {
     window.Echo.join(channel)
         .whisper(event, data)

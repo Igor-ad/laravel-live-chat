@@ -1,5 +1,3 @@
-import React from "react";
-
 const CustomAction = ({action, data}) => {
 
     switch (action) {

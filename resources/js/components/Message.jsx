@@ -45,20 +45,20 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
                 <div className={
                     `alert alert-${alert()}`
                 } role="alert">
-                    <div className="row">
-                        <div className="col-md-10">
+                    <div className="row justify-content-between">
+                        <div className="col">
                             {message.text}
                         </div>
                         {ownMessage() ?
-                            <div className="col-md-1">
+                            <div className="col-2">
                                 <button onClick={
                                     (e) => {
                                         deleteMessageRequest(message);
                                     }
                                 }
-                                        className="btn btn-link btn-sm"
+                                        className="btn-link"
                                         type="button">
-                                    <span className="badge text-bg-secondary align-content-lg-end">x</span>
+                                    <span className="badge text-bg-secondary">x</span>
                                 </button>
                             </div>
                             : ""}
