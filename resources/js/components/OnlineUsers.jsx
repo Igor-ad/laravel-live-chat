@@ -21,6 +21,7 @@ const OnlineUsers = ({chatObject}) => {
     };
 
     const updateStatusBar = (action, data) => {
+        // todo: maybe customAction
         let text = CustomAction({action, data});
         setStatusBar(text);
         console.log(text);
@@ -85,6 +86,7 @@ const OnlineUsers = ({chatObject}) => {
         window.Echo.private(systemChannel)
             .listen('.ChatCreated', (e) => {
                 const chatCreateSB = () => (updateStatusBar('chatCreate', e.model));
+                // todo: here you can save setTimeout's id and use clearTimeout(id) in return of useEffect
                 setTimeout(chatCreateSB, 2000);
             })
             .listen('.ChatDeleted', (e) => {
@@ -101,6 +103,7 @@ const OnlineUsers = ({chatObject}) => {
         connectChatChannel()
         connectPrivateSystemChannel();
         return () => {
+            // todo: remove setTimeout's id
             window.Echo.leave(channel);
             window.Echo.leave(systemChannel);
         }

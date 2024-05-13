@@ -16,6 +16,8 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
             chat_id: chat.id,
             _token: csrfToken,
         };
+
+        // todo: maybe sendRequest
         await SendRequest({
             endPoint: messagesEndPoint,
             data
@@ -25,6 +27,7 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
     const createMessage = (e) => {
         e.preventDefault();
         if (message.trim() === "") {
+            // todo: sometimes user has disabled alerts
             alert("Please enter a message!");
             return;
         }
@@ -32,6 +35,8 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
         setMessage("");
     };
 
+
+    // todo: maybe handleMessage or inputHandler
     const typingText = (e) => {
         let text = e.target.value;
         setMessage(text);
@@ -43,6 +48,7 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
                 data: authUser
             });
         }
+        // todo: maybe broadcastEvent
         BroadcastEvent({
             channel,
             event: 'typing',

@@ -1,7 +1,7 @@
 import Echo from 'laravel-echo';
 
 import Pusher from 'pusher-js';
-
+// todo: don't put objects in global scope
 window.Pusher = Pusher;
 
 window.Echo = new Echo({

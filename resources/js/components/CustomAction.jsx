@@ -1,3 +1,4 @@
+// todo: not a class or component, call it customAction
 const CustomAction = ({action, data}) => {
 
     switch (action) {

@@ -5,6 +5,9 @@ import OnlineUsers from "./OnlineUsers.jsx";
 
 const ChatBox = ({rootUrl, csrfToken}) => {
 
+    // todo: interaction with HTML should be put in useEffect hook
+    // in this case the component will not do actions every render
+    // put getElementById, JSON.parse, getting authUser and chatChannel to useEffect
     const chatData = document.getElementById('main')
         .getAttribute('data-chat');
     const chatObject = JSON.parse(chatData);
@@ -69,7 +72,8 @@ const ChatBox = ({rootUrl, csrfToken}) => {
             window.Echo.leave(chatChannel);
         }
     }, []);
-
+    // todo: you can use eslinter/prettier in future to make your code more attractive
+    // indentation in two spaces, attributes in one line etc.
     return (
         <div className="row justify-content-center">
             <div className="col-md-10">
