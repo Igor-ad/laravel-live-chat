@@ -3,6 +3,8 @@ import SendRequest from "./SendRequest.jsx";
 
 const InviteModal = ({rootUrl, csrfToken}) => {
 
+    // todo: you can put invitesEndPoint, chatsEndPoint, systemData, system in useEffect and save
+    // to prevent call it every render
     const invitesEndPoint = `${rootUrl}/invites`;
     const chatsEndPoint = `${rootUrl}/chats/`;
     const systemData = document.getElementById('invite')
@@ -38,6 +40,7 @@ const InviteModal = ({rootUrl, csrfToken}) => {
             chat_id: e.chat.id,
             _token: csrfToken,
         };
+        // todo: sendRequest maybe
         await SendRequest({
             endPoint: invitesEndPoint,
             data

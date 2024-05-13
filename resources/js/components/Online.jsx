@@ -17,6 +17,8 @@ const Online = ({user, chatObject}) => {
     /**
      *  Block sending invite to yourself
      */
+
+      // todo: maybe inviteUser, comment is not needed here because this is obvious from the code
     const dontInviteYourself = () => {
         if (user.id !== authUser.id) {
             return (

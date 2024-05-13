@@ -5,6 +5,8 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
 
     const messagesEndPoint = `${rootUrl}/messages/`;
 
+    // todo: maybe isOwnMessage or
+    // const isOwnMessage = authUser.id === message.user.id;
     const ownMessage = () => {
         return (authUser.id === message.user.id);
     };
@@ -15,12 +17,15 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
             _token: csrfToken,
             _method: 'delete'
         };
+
+        // todo: sendRequest maybe
         await SendRequest({
             endPoint: deleteMessageEndpoint,
             data
         });
     }
 
+    // todo: method/function's name should represent the action, kinda getAlertType
     const alert = () => {
         switch (true) {
             case authUser.id === message.user_id :
