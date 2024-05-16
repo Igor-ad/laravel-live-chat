@@ -1,11 +1,11 @@
 import React from "react";
-import SendRequest from "./SendRequest.jsx";
+import sendRequest from "./sendRequest.jsx";
 
 const Message = ({rootUrl, authUser, message, csrfToken}) => {
 
     const messagesEndPoint = `${rootUrl}/messages/`;
 
-    const ownMessage = () => {
+    const isOwnMessage = () => {
         return (authUser.id === message.user.id);
     };
 
@@ -15,13 +15,13 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
             _token: csrfToken,
             _method: 'delete'
         };
-        await SendRequest({
+        await sendRequest({
             endPoint: deleteMessageEndpoint,
             data
         });
     }
 
-    const alert = () => {
+    const getAlertType = () => {
         switch (true) {
             case authUser.id === message.user_id :
                 return 'primary';
@@ -34,7 +34,7 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
     };
 
     return (
-        <div className={`row ${ownMessage() ? "justify-content-end" : ""}`}>
+        <div className={`row ${isOwnMessage() ? "justify-content-end" : ""}`}>
             <div className="col-md-6" id={message.id}>
                 <small className="text-muted">
                     <strong>{message.user.name} </strong>
@@ -43,13 +43,13 @@ const Message = ({rootUrl, authUser, message, csrfToken}) => {
                     {message.time}
                 </small>
                 <div className={
-                    `alert alert-${alert()}`
+                    `alert alert-${getAlertType()}`
                 } role="alert">
                     <div className="row justify-content-between">
                         <div className="col">
                             {message.text}
                         </div>
-                        {ownMessage() ?
+                        {isOwnMessage() ?
                             <div className="col-2">
                                 <button onClick={
                                     (e) => {

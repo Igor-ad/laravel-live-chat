@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Online from "./Online.jsx";
-import CustomAction from "./CustomAction.jsx";
+import customAction from "./customAction.jsx";
 
 const OnlineUsers = ({chatObject}) => {
 
@@ -9,6 +9,8 @@ const OnlineUsers = ({chatObject}) => {
     const [statusBar, setStatusBar] = useState("");
     const [usersOnline, setUsersOnline] = useState([]);
     const [chatUsersCount, setChatUsersCount] = useState(1);
+    let statusBarTimer = useRef(null);
+    let createdChatTimer = useRef(null);
 
     const addUser = (user) => {
         setUsersOnline(prevState => [...prevState, user]);
@@ -21,12 +23,10 @@ const OnlineUsers = ({chatObject}) => {
     };
 
     const updateStatusBar = (action, data) => {
-        let text = CustomAction({action, data});
+        let text = customAction({action, data});
         setStatusBar(text);
+        statusBarTimer = setTimeout(() => setStatusBar(""), 10000);
         console.log(text);
-        setTimeout(() => {
-            setStatusBar(""); // erase status bar after timeout
-        }, 10000);
     };
 
     const connectSystemChannel = () => {
@@ -84,8 +84,7 @@ const OnlineUsers = ({chatObject}) => {
     const connectPrivateSystemChannel = () => {
         window.Echo.private(systemChannel)
             .listen('.ChatCreated', (e) => {
-                const chatCreateSB = () => (updateStatusBar('chatCreate', e.model));
-                setTimeout(chatCreateSB, 2000);
+                createdChatTimer = setTimeout(() => updateStatusBar('chatCreate', e.model), 2000);
             })
             .listen('.ChatDeleted', (e) => {
                 updateStatusBar('chatDelete', e.model);
@@ -101,6 +100,8 @@ const OnlineUsers = ({chatObject}) => {
         connectChatChannel()
         connectPrivateSystemChannel();
         return () => {
+            clearTimeout(statusBarTimer);
+            clearTimeout(createdChatTimer);
             window.Echo.leave(channel);
             window.Echo.leave(systemChannel);
         }

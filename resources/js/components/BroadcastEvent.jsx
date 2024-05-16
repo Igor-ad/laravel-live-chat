@@ -1,4 +1,4 @@
-const BroadcastEvent = function ({channel, event, data}) {
+const broadcastEvent = function ({channel, event, data}) {
     window.Echo.join(channel)
         .whisper(event, data)
         .error((error) => {
@@ -6,4 +6,4 @@ const BroadcastEvent = function ({channel, event, data}) {
         });
 };
 
-export default BroadcastEvent;
+export default broadcastEvent;

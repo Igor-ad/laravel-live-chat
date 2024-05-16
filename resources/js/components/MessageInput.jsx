@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import BroadcastEvent from "./BroadcastEvent.jsx";
-import SendRequest from "./SendRequest.jsx";
+import broadcastEvent from "./broadcastEvent.jsx";
+import sendRequest from "./sendRequest.jsx";
 
 const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
 
@@ -16,14 +16,14 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
             chat_id: chat.id,
             _token: csrfToken,
         };
-        await SendRequest({
+        await sendRequest({
             endPoint: messagesEndPoint,
             data
         });
     };
 
     const createMessage = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         if (message.trim() === "") {
             alert("Please enter a message!");
             return;
@@ -32,18 +32,18 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
         setMessage("");
     };
 
-    const typingText = (e) => {
+    const inputHandler = (e) => {
         let text = e.target.value;
         setMessage(text);
         if (text.length % 5) return;
         if (text.length === 0) {
-            return BroadcastEvent({
+            return broadcastEvent({
                 channel,
                 event: 'erasing',
                 data: authUser
             });
         }
-        BroadcastEvent({
+        broadcastEvent({
             channel,
             event: 'typing',
             data: authUser
@@ -52,7 +52,7 @@ const MessageInput = ({rootUrl, csrfToken, chatObject}) => {
 
     return (
         <div className="input-group">
-            <input onChange={(e) => typingText(e)}
+            <input onChange={(e) => inputHandler(e)}
                    autoComplete="off"
                    type="text"
                    className="form-control"

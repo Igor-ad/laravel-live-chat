@@ -1,4 +1,4 @@
-const SendRequest = async ({endPoint, data}) => {
+const sendRequest = async ({endPoint, data}) => {
     try {
         await axios.post(endPoint, data);
     } catch (error) {
@@ -6,4 +6,4 @@ const SendRequest = async ({endPoint, data}) => {
     }
 };
 
-export default SendRequest;
+export default sendRequest;

@@ -1,5 +1,5 @@
 import React from "react";
-import BroadcastEvent from "./BroadcastEvent.jsx";
+import broadcastEvent from "./broadcastEvent.jsx";
 
 const Online = ({user, chatObject}) => {
 
@@ -14,17 +14,14 @@ const Online = ({user, chatObject}) => {
         from: authUser
     };
 
-    /**
-     *  Block sending invite to yourself
-     */
-    const dontInviteYourself = () => {
+    const inviteUser = () => {
         if (user.id !== authUser.id) {
             return (
                 <div className="col-md-2">
                     <div className="input-group-append">
                         <button onClick={
                             (e) => {
-                                BroadcastEvent({
+                                broadcastEvent({
                                     channel: systemChannel,
                                     event: 'invite',
                                     data: eventData
@@ -49,7 +46,7 @@ const Online = ({user, chatObject}) => {
                 <div className="col-md-6">
                     ({user.email})
                 </div>
-                {dontInviteYourself()}
+                {inviteUser()}
             </div>
         </div>
     );

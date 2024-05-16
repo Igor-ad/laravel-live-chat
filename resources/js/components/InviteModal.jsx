@@ -1,26 +1,23 @@
 import React, {useEffect} from 'react';
-import SendRequest from "./SendRequest.jsx";
+import sendRequest from "./sendRequest.jsx";
 
 const InviteModal = ({rootUrl, csrfToken}) => {
 
     const invitesEndPoint = `${rootUrl}/invites`;
     const chatsEndPoint = `${rootUrl}/chats/`;
-    const systemData = document.getElementById('invite')
-        .getAttribute('data-system');
-    const system = JSON.parse(systemData);
 
-    const connectSystemChannel = () => {
+    const connectSystemChannel = (system) => {
         window.Echo.join(system.systemChannel)
             .listenForWhisper('invite', (e) => {
                 axios.defaults.headers.common['X-Socket-Id'] = Echo.socketId();
-                getInvite(e);
+                getInvite(e, system);
             })
             .error((error) => {
                 console.error(error);
             });
     };
 
-    const getInvite = (e) => {
+    const getInvite = (e, system) => {
         if (e.id === system.authUserId) {
             let proposalText =
                 `You are invited by the ${e.from.name} to the chat: "${e.chat.name}"`;
@@ -38,7 +35,7 @@ const InviteModal = ({rootUrl, csrfToken}) => {
             chat_id: e.chat.id,
             _token: csrfToken,
         };
-        await SendRequest({
+        await sendRequest({
             endPoint: invitesEndPoint,
             data
         });
@@ -51,7 +48,10 @@ const InviteModal = ({rootUrl, csrfToken}) => {
     };
 
     useEffect(() => {
-        connectSystemChannel();
+        const systemData = document.getElementById('invite')
+            .getAttribute('data-system');
+        const system = JSON.parse(systemData);
+        connectSystemChannel(system);
 
         return () => {
             window.Echo.leave(system.systemChannel);

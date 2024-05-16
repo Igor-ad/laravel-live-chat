@@ -1,4 +1,4 @@
-const CustomAction = ({action, data}) => {
+const customAction = ({action, data}) => {
 
     switch (action) {
         case 'leaving' :
@@ -25,4 +25,4 @@ const CustomAction = ({action, data}) => {
     }
 };
 
-export default CustomAction;
+export default customAction;
