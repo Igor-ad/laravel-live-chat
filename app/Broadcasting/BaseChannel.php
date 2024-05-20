@@ -10,17 +10,10 @@ use Illuminate\Http\Request;
 
 abstract class BaseChannel
 {
-    protected static string $channelName;
-
     public function __construct(
         protected Request $request,
     )
     {
-    }
-
-    public static function channelName(): string
-    {
-        return static::$channelName;
     }
 
     /**

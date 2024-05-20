@@ -6,5 +6,5 @@ namespace App\Broadcasting;
 
 class ChatPrivateChannel extends BaseChannel
 {
-    protected static string $channelName = 'App.Models.Chat.{id}';
+    public final const NAME = 'App.Models.Chat.{id}';
 }

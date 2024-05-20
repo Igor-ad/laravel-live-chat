@@ -63,7 +63,7 @@ class ChatController extends Controller
     private function channels(string $chatId): array
     {
         return [
-            'systemChannel' => SystemPresenceChannel::channelName(),
+            'systemChannel' => SystemPresenceChannel::NAME,
             'chatChannel' => "App.Models.Chat.{$chatId}",
         ];
     }

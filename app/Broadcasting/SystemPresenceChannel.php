@@ -6,5 +6,5 @@ namespace App\Broadcasting;
 
 class SystemPresenceChannel extends BaseChannel
 {
-    protected static string $channelName = 'SystemPresenceChannel';
+    public final const NAME = 'SystemPresenceChannel';
 }

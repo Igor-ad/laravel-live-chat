@@ -12,7 +12,7 @@ class ApplicationController
     {
         return json_encode([
             'authUserId' => auth()->id(),
-            'systemChannel' => SystemPresenceChannel::channelName(),
+            'systemChannel' => SystemPresenceChannel::NAME,
         ]);
     }
 
