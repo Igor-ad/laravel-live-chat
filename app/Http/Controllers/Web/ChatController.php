@@ -20,7 +20,7 @@ class ChatController extends Controller
     {
         $allowedChats = Chat::query()
             ->with('user')
-            ->byAuthUserOrByStatus('public')
+            ->accessByOwnerOrByStatus('public')
             ->get();
 
         return view('chats.chats', compact('allowedChats'));

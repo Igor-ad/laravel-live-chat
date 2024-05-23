@@ -41,7 +41,7 @@ class Chat extends Model
         ];
     }
 
-    public function scopeByAuthUserOrByStatus($query, $status): Builder
+    public function scopeAccessByOwnerOrByStatus($query, $status): Builder
     {
         return $query
             ->where('user_id', auth()->id())
