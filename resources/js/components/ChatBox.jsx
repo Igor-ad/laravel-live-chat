@@ -33,6 +33,9 @@ const ChatBox = ({rootUrl, csrfToken}) => {
 
     const connectPrivateChatChannel = () => {
         window.Echo.private(chatChannel)
+            .subscribed(() => {
+                getMessages();
+            })
             .listen('.MessageCreated', (e) => {
                 setMessages(prevState => [...prevState, e.model]);
                 setTimeout(scrollToBottom, 0);
@@ -62,7 +65,6 @@ const ChatBox = ({rootUrl, csrfToken}) => {
     };
 
     useEffect(() => {
-        getMessages();
         connectPrivateChatChannel();
 
         return () => {
