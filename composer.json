@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "laravel/laravel-live-chat",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Laravel 11 Live Chat, React SPA with Pusher",
+    "keywords": ["laravel", "framework", "live-chat", "chatroom", "websockets", "pusher", "php"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
