@@ -13,7 +13,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invite extends Message
 {
-    use HasFactory, SoftDeletes, BroadcastsEvents, InteractsWithSockets;
+    use HasFactory;
+    use SoftDeletes;
+    use BroadcastsEvents;
+    use InteractsWithSockets;
 
     public final const TEXT = 'You are invited to the chat.';
 
@@ -30,7 +33,8 @@ class Invite extends Message
     protected function newBroadcastableEvent($event): BroadcastableModelEventOccurred
     {
         return (new BroadcastableModelEventOccurred(
-            $this, $event
+            $this,
+            $event
         ))->dontBroadcastToCurrentUser();
     }
 

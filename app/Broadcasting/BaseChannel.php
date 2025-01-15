@@ -12,8 +12,7 @@ abstract class BaseChannel
 {
     public function __construct(
         protected Request $request,
-    )
-    {
+    ) {
     }
 
     /**

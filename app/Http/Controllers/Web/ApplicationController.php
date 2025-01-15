@@ -15,5 +15,4 @@ class ApplicationController
             'systemChannel' => SystemPresenceChannel::NAME,
         ]);
     }
-
 }

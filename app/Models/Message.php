@@ -14,7 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Message extends Model
 {
-    use HasFactory, SoftDeletes, BroadcastsEvents;
+    use HasFactory;
+    use SoftDeletes;
+    use BroadcastsEvents;
 
     protected $fillable = [
         'id',
